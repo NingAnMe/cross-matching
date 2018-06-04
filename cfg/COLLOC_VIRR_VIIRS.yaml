@@ -1,0 +1,69 @@
+################################################
+#  Description: FY-3 GSICS 交叉匹配阈值配置文件 #
+#  Author:      xuna                           #
+#  Mailbox:     xuna@cma.gov.cn                #
+#  Date:        2017-09-01                     #
+################################################
+
+# FY传感器和国外传感器名称
+sensor1: VIRR
+sensor2: VIIRS
+
+# chan1: FY通道和国外国通对应关系
+# chan2: VIIRS通道序号，对应原 CH_04=M4 CH_10=M10 类推 
+chan1: [CH_02, CH_06, CH_07, CH_08]
+chan2: [CH_07, CH_10, CH_02, CH_03]
+
+# 通道注释VIIRS，MODIS阈值 梳理VIIRS阈值
+# VIIRS 增加SV BB LandSeaMask 存FY的信息
+
+# 窗口大小 Fov 和 Env ,只能是奇数,针对所有通道（DN REF/TBB/RAD）Mean std
+FyFovWindow:  [3, 3]
+FyEnvWindow:  [7, 7]
+LeoFovWindow: [3, 3]
+LeoEnvWindow: [7, 7]
+
+isClear_mode : ON       # 是否可开启晴空判识,OFF关闭|ON开启
+isClear_band : CH_06    # 使用FY VIRR 06通道进行晴空判识
+isClear_max  : 0.5      # 是晴空的最大值，小于则认为是云
+
+# 全局阈值
+solglint_min : 35   # 太阳耀斑角阈值，保留大于的
+solzenith_max : 80  # 太阳天顶角阈值，保留小于的
+timedif_max : 600   # 时间阈值，单位秒
+distdif_max : 1     # 距离阈值，单位 km
+angledif_max : 0.01     # 晴空角度阈值
+cld_angledif_max : 0.02 # 云区角度阈值
+
+# 对应各个通道阈值 ,根据FY通道顺序书写
+CH_02:
+  homodif_fov_max : 0.01     # 靶区均匀性
+  homodif_env_max : 0.01     # 环境均匀性
+  homodif_fov_env_max : 0.02 # 靶区/环境 均匀性
+  cld_homodif_fov_max: 0.02
+  cld_homodif_env_max : 0.02
+  cld_homodif_fov_env_max : 0.02
+  
+CH_06:
+  homodif_fov_max : 0.01
+  homodif_env_max : 0.01
+  homodif_fov_env_max : 0.02
+  cld_homodif_fov_max : 0.02
+  cld_homodif_env_max : 0.02
+  cld_homodif_fov_env_max : 0.02
+  
+CH_07:
+  homodif_fov_max: 0.01
+  homodif_env_max : 0.01
+  homodif_fov_env_max : 0.02
+  cld_homodif_fov_max: 0.02
+  cld_homodif_env_max : 0.02
+  cld_homodif_fov_env_max : 0.02
+  
+CH_08:
+  homodif_fov_max: 0.01
+  homodif_env_max : 0.01
+  homodif_fov_env_max : 0.02
+  cld_homodif_fov_max: 0.02
+  cld_homodif_env_max : 0.02
+  cld_homodif_fov_env_max : 0.02

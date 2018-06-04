@@ -1,0 +1,101 @@
+################################################
+#  Description: FY-3 GSICS 交叉匹配阈值配置文件 #
+#  Author:      xuna                           #
+#  Mailbox:     xuna@cma.gov.cn                #
+#  Date:        2017-09-01                     #
+################################################
+
+# 传感器对的配置第一个和第二个传感器名称
+sensor1: AHI
+sensor2: MERSI
+
+# FY通道和国外国通对应关系,通道书写规则 CH_ 加通道序号0补位。
+chan1: [CH_01,CH_04,CH_05,CH_07,CH_09]
+chan2: [CH_20,CH_22,CH_23,CH_24,CH_25]
+
+# 通道注释VIIRS，MODIS阈值 梳理VIIRS阈值
+# VIIRS 增加SV BB LandSeaMask 存FY的信息
+
+# 窗口大小 Fov 和 Env ,只能是奇数,针对所有通道（DN REF/TBB/RAD）Mean std
+FovWind1: [9, 9]
+EnvWind1: [15, 15]
+FovWind2: [5, 5]
+EnvWind2: [7, 7]
+
+rewrite: ON  # ON覆盖  OFF 关闭H5文件输出
+drawmap: ON  # ON绘图  OFF 关闭绘图
+
+# 绘图内容与坐标轴范围,如果自动范围开启ON 则xy轴坐标范围失效，关闭OFF则生效
+AutoRange: OFF
+axis_ref: {}
+axis_rad: {}
+axis_tbb: {CH_01:[200,320],CH_04:[200,320],CH_05:[180,300],CH_07:[180,300],CH_09:[180,300]}
+# 全局阈值
+solglint_min : 35   # 太阳耀斑角阈值，保留大于的
+solzenith_max : 80  # 太阳天顶角阈值，保留小于的
+timedif_max : 600   # 时间阈值，单位秒
+distdif_max : 1     # 距离阈值，单位 km
+angledif_max : 0.03 # 角度阈值
+
+# 通道阈值 分别针对红外和可见通道生效 vis可见  ir红外 max最大值  min最小值
+clear_band_vis: CH_02          # 云和晴空判识使用的通道
+clear_max_vis: 0             # 晴空判识的最大值，0则关闭
+clear_band_ir: CH_07           # 云和晴空判识使用的通道
+clear_min_ir: 270              # 晴空判识的最小值，0则关闭
+
+#######################################红外##########################################
+#######################################红外##########################################
+CH_01:
+  value_max: 350                # 饱和值
+  angledif_max: 0.01            # 角度均匀性
+  homodif_fov_max: 0.01         # 靶区均匀性
+  homodif_env_max: 0.01         # 环境均匀性
+  homodif_fov_env_max: 0.01     # 靶区/环境 均匀性
+  cld_angledif_max: 0.01        # 云区角度均匀性
+  cld_homodif_fov_max: 0.03     # 云区靶区均匀性
+  cld_homodif_env_max: 0.03     # 云区环境均匀性
+  cld_homodif_fov_env_max: 0.03 # 云区靶区/环境 均匀性
+  
+CH_04:
+  value_max: 300                # 饱和值
+  angledif_max: 0.01            # 角度均匀性
+  homodif_fov_max: 0.01         # 靶区均匀性
+  homodif_env_max: 0.01         # 环境均匀性
+  homodif_fov_env_max: 0.01     # 靶区/环境 均匀性
+  cld_angledif_max: 0.01        # 云区角度均匀性
+  cld_homodif_fov_max: 0.03     # 云区靶区均匀性
+  cld_homodif_env_max: 0.03     # 云区环境均匀性
+  cld_homodif_fov_env_max: 0.03 # 云区靶区/环境 均匀性  
+  
+CH_05:
+  value_max: 300                # 饱和值
+  angledif_max: 0.01            # 角度均匀性
+  homodif_fov_max: 0.01         # 靶区均匀性
+  homodif_env_max: 0.01         # 环境均匀性
+  homodif_fov_env_max: 0.01     # 靶区/环境 均匀性
+  cld_angledif_max: 0.01        # 云区角度均匀性
+  cld_homodif_fov_max: 0.03     # 云区靶区均匀性
+  cld_homodif_env_max: 0.03     # 云区环境均匀性
+  cld_homodif_fov_env_max: 0.03 # 云区靶区/环境 均匀性
+ 
+CH_07:
+  value_max: 320                # 饱和值
+  angledif_max: 0.01            # 角度均匀性
+  homodif_fov_max: 0.009         # 靶区均匀性
+  homodif_env_max: 0.009         # 环境均匀性
+  homodif_fov_env_max: 0.009     # 靶区/环境 均匀性
+  cld_angledif_max: 0.01        # 云区角度均匀性
+  cld_homodif_fov_max: 0.03     # 云区靶区均匀性
+  cld_homodif_env_max: 0.03     # 云区环境均匀性
+  cld_homodif_fov_env_max: 0.03 # 云区靶区/环境 均匀性
+
+CH_09:
+  value_max: 320               # 饱和值
+  angledif_max: 0.01           # 角度均匀性
+  homodif_fov_max: 0.01        # 靶区均匀性
+  homodif_env_max: 0.01        # 环境均匀性
+  homodif_fov_env_max: 0.01    # 靶区/环境 均匀性
+  cld_angledif_max: 0.01        # 云区角度均匀性
+  cld_homodif_fov_max: 0.03     # 云区靶区均匀性
+  cld_homodif_env_max: 0.03     # 云区环境均匀性
+  cld_homodif_fov_env_max: 0.03 # 云区靶区/环境 均匀性

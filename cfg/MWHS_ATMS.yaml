@@ -1,0 +1,21 @@
+sensor1: MWHS
+sensor2: ATMS
+chan: [CH01, CH10, CH11, CH12, CH13, CH14, CH15]
+plot: [tbb-tbb]
+days: 5  # use resent 5 days to plot
+bias: [tbb]  # month statistics: ref2 - ref1 
+
+#------physical quantity info------
+#----------------------------------
+tbb:
+  name: TBB
+  unit: 'K'
+  thhold: [200-280, 200-280, 200-280, 200-280, 200-280, 200-280, 200-280]
+  reference:
+    - [290]
+    - [290]
+    - [290]
+    - [290]
+    - [290]
+    - [290]
+    - [290]

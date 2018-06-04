@@ -1,0 +1,24 @@
+sensor1: IRAS
+sensor2: IASI
+chan: [CH_20,CH_21,CH_22,CH_23,CH_24,CH_25]
+plot: [rad-rad, tbb-tbb]
+days: 1  # use resent 5 days to plot
+bias: [tbb]  # month statistics: ref2 - ref1 
+
+#------physical quantity info------
+#----------------------------------
+rad:
+  name: Radiance
+  unit: 'mw/m^2/sr/cm^{-1}'
+  thhold: [0-180, 0-180, 0-180,0-180,0-180,0-180]
+tbb:
+  name: TBB
+  unit: 'K'
+  thhold: [200-320, 200-320, 200-300,200-300,200-300,200-300]
+  reference: # each channel has a reference list
+    - [220,]
+    - [220,]
+    - [220,]
+    - [220,]
+    - [230,]
+    - [240,]

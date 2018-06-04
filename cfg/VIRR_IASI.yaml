@@ -1,0 +1,20 @@
+sensor1: VIRR
+sensor2: IASI
+chan: [CH_03, CH_04, CH_05]
+plot: [rad-rad, tbb-tbb]
+days: 1  # use resent 5 days to plot
+bias: [tbb]  # month statistics: ref2 - ref1 
+#------physical quantity info------
+#----------------------------------
+rad:
+  name: Radiance
+  unit: 'mw/m^2/sr/cm^{-1}'
+  thhold: [0-1, 0-140, 0-140]
+tbb:
+  name: TBB
+  unit: 'K'
+  thhold: [200-300, 200-300, 200-300]
+  reference: # each channel has a reference list
+    - [250,]
+    - [250,]
+    - [250,]
