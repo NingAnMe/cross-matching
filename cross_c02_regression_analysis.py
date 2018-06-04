@@ -52,7 +52,7 @@ def run(pair, ymd, is_monthly):
         return
 
     # 加载绘图配置文件
-    plt_cfg_file = os.path.join(MAIN_PATH, "cfg", "%s_%s_3d.yaml" % (sensor1, sensor2))
+    plt_cfg_file = os.path.join(MAIN_PATH, "cfg", "%s.plt" % pair)
     plt_cfg = loadYamlCfg(plt_cfg_file)
     if plt_cfg is None:
         LOG.error("Not find the config file: {}".format(plt_cfg_file))

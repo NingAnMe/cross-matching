@@ -42,11 +42,8 @@ def run(pair1, pair2, date_s, date_e):
         Log.error("%s and %s not the same, can't do double bias" % (satsen11, satsen21))
         return
 
-    # 读取传感器对的配置文件
-    sat11, sen11 = satsen11.split('+')
-    sat12, sen12 = satsen12.split('+')
-
-    plt_cfg_file = os.path.join(MAIN_PATH, "cfg", '%s_%s_3d.yaml' % (sen11, sen12))
+    # 读取配置文件
+    plt_cfg_file = os.path.join(MAIN_PATH, "cfg", "%s.plt" % pair1)
     plt_cfg = loadYamlCfg(plt_cfg_file)
 
     chans = plt_cfg["rad-rad"]["chan"]
