@@ -64,7 +64,7 @@ def main(inYamlFile):
 
     # 02 MCFG = 阈值配置文件类
     modeFile = os.path.join(
-        MainPath, 'cfg', 'COLLOC_%s_%s.yaml' % (ICFG.sensor1, ICFG.sensor2))
+        MainPath, 'cfg', '%s+%s_%s+%s.colloc' % (ICFG.sat1, ICFG.sensor1, ICFG.sat2, ICFG.sensor2))
     MCFG = ReadModeYaml(modeFile)
 
     # setup parameters
@@ -89,7 +89,8 @@ def main(inYamlFile):
     if not rewrite_mask:
         T1 = datetime.now()
         ##########03 解析 第一颗传感器的L1数据 ##########
-        if 'MERSI2' == ICFG.sensor1:  # D1 成像仪数据解析 2000*2048
+        # D1 成像仪数据解析 2000*2048
+        if 'MERSI' == ICFG.sensor1 and 'FY3D' in ICFG.sat1:
             D1 = CLASS_MERSI2_L1()
             for inFile1 in ICFG.ifile1:
                 D1.Load(inFile1)
@@ -102,7 +103,7 @@ def main(inYamlFile):
                 D1.get_G_P_L()
 
         # D2 高光谱数据解析 ggp数据全部变量由(30*29*4 = 3480)转成了 3480*1
-        if 'HIRAS' == ICFG.sensor2:
+        if 'HIRAS' == ICFG.sensor2 and 'FY3D' in ICFG.sat2:
             for inFile2 in ICFG.ifile2:
                 D2 = CLASS_HIRAS_L1(MCFG.chan1)
                 D2.Load(inFile2)

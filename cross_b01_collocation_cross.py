@@ -80,7 +80,7 @@ def main(inYamlFile):
 
     # 02 MCFG = 阈值配置文件类
     modeFile = os.path.join(
-        MainPath, 'cfg', 'COLLOC_%s_%s.yaml' % (ICFG.sensor1, ICFG.sensor2))
+        MainPath, 'cfg', '%s+%s_%s+%s.colloc' % (ICFG.sat1, ICFG.sensor1, ICFG.sat2, ICFG.sensor2))
     MCFG = ReadModeYaml(modeFile)
     # DCLC = DATA DCLC 匹配结果类
     DCLC = COLLOC_COMM(ICFG.row, ICFG.col, MCFG.chan1)
@@ -98,16 +98,16 @@ def main(inYamlFile):
         T1 = datetime.now()
         ##########03 解析 第一颗传感器的L1数据 ##########
         for inFile in ICFG.ifile1:
-            if 'MERSI' == ICFG.sensor1:
+            if 'MERSI' == ICFG.sensor1 and 'FY3C' in ICFG.sat1:
                 D1 = CLASS_MERSI_L1()
                 D1.Load(inFile)
-            elif 'VIRR' == ICFG.sensor1:
+            elif 'VIRR' == ICFG.sensor1 and 'FY3C' in ICFG.sat1:
                 D1 = CLASS_VIRR_L1()
                 D1.Load(inFile)
-            elif 'IRAS' == ICFG.sensor1:
+            elif 'IRAS' == ICFG.sensor1 and 'FY3C' in ICFG.sat1:
                 D1 = CLASS_IRAS_L1()
                 D1.Load(inFile)
-            elif 'MERSI2' == ICFG.sensor1:
+            elif 'MERSI' == ICFG.sensor1 and 'FY3D' in ICFG.sat1:
                 D1 = CLASS_MERSI2_L1()
                 LutFile = ''
                 D1.LutFile = LutFile
