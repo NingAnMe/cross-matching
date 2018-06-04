@@ -32,7 +32,9 @@ if sserver.createSocket(port) == False:
 
 MainPath, MainFile = os.path.split(os.path.realpath(__file__))
 cfgFile = os.path.join(MainPath, 'cfg/global.cfg')
-odmFile = os.path.join(MainPath, 'cfg/dm_odm.cfg')
+PYTHON_PATH = os.environ.get("PYTHONPATH")
+odmFile = os.path.join(PYTHON_PATH, 'DM/ODM/dm_odm.cfg')
+# odmFile = os.path.join(MainPath, 'cfg/dm_odm.cfg')
 inCfg = ConfigObj(cfgFile)
 odmCfg = ConfigObj(odmFile)
 
@@ -107,49 +109,113 @@ def main():
     if len(job_exe) > 0:
         print 'start %s process ......' % job_id
 
-        # 投影和匹配 创建配置
-        while date_s <= date_e:
-            ymd = date_s.strftime('%Y%m%d')
-            use_cfg = craete_sat_pair_yaml(sat_pair, ymd, job_id)
-            date_s = date_s + relativedelta(days=1)
+        if job_id in ['01', '02', '03', '04']:
+            # 创建job01 ~ job04 作业需要的输入文件
+            craete_incfg_job_01_04(sat_pair, date_s, date_e, job_id)
 
-        # 获取运行参数的清单
-        arg_list = get_arg_list(job_exe,
-                                sat_pair, date_start, date_e, job_id, use_cfg)
+            # 拼接job01 ~ job04 作业的参数命令行
+            arg_list = get_arglist_job01_04(job_exe,
+                                            sat_pair, date_start, date_e, job_id)
+
+        elif job_id in ['07']:
+            arg_list = get_arglist_job07(
+                job_exe, sat_pair, date_s, date_e, job_id)
+        elif job_id in ['08']:
+            arg_list = get_arglist_job08(
+                job_exe, sat_pair, date_s, date_e, job_id)
+        elif job_id in ['09', '10']:
+            arg_list = get_arglist_job09_10(
+                job_exe, sat_pair, date_s, date_e, job_id)
+        elif job_id in ['11']:
+            arg_list = get_arglist_job11(
+                job_exe, sat_pair, date_s, date_e, job_id)
+
         # 运行所有参数
         run_command(arg_list)
     else:
         print 'job_%s not process ......' % job_id
 
 
-def get_arg_list(job_exe, sat_pair, date_s, date_e, job_id, use_cfg=True):
-    Log.info(u'in function get_arg_list')
+def get_arglist_job11(job_exe, sat_pair, date_s, date_e, job_id):
+    '''
+    :月回归
+    '''
+    Log.info(u'in function get_arglist_job10')
     arg_list = []
-    if use_cfg:
-        while date_s <= date_e:
-            ymd = date_s.strftime('%Y%m%d')
-            cfg_path = os.path.join(
-                JOBCFG_DIR, sat_pair, 'job_%s' % job_id, ymd)
+    while date_s <= date_e:
+        ym = date_s.strftime('%Y%m')
 
-            if not os.path.isdir(cfg_path):
-                Log.error(u'not found %s ' % (cfg_path))
-                date_s = date_s + relativedelta(days=1)
-                continue
+        cmd_list = '%s %s %s %s' % (python, job_exe, sat_pair, ym)
+        arg_list.append(cmd_list)
+        date_s = date_s + relativedelta(months=1)
+    return arg_list
 
-            Lst = sorted(os.listdir(cfg_path), reverse=False)
 
-            for Line in Lst:
-                yaml_file = os.path.join(cfg_path, Line)
-                cmd_list = '%s %s %s' % (python, job_exe, yaml_file)
-                arg_list.append(cmd_list)
+def get_arglist_job09_10(job_exe, sat_pair, date_s, date_e, job_id):
+    '''
+    :蝴蝶图和日回归
+    '''
+    Log.info(u'in function get_arglist_job09')
+    arg_list = []
+    while date_s <= date_e:
+        ymd = date_s.strftime('%Y%m%d')
 
+        cmd_list = '%s %s %s %s' % (python, job_exe, sat_pair, ymd)
+        arg_list.append(cmd_list)
+        date_s = date_s + relativedelta(days=1)
+    return arg_list
+
+
+def get_arglist_job08(job_exe, sat_pair, date_s, date_e, job_id):
+    '''
+    :国际标准nc合成
+    '''
+    Log.info(u'in function get_arglist_job08')
+    arg_list = []
+
+    cmd_list = '%s %s %s ' % (python, job_exe, sat_pair)
+    arg_list.append(cmd_list)
+    return arg_list
+
+
+def get_arglist_job07(job_exe, sat_pair, date_s, date_e, job_id):
+    '''
+    :国际标准nc生成
+    '''
+    Log.info(u'in function get_arglist_job07')
+    arg_list = []
+    while date_s <= date_e:
+        ymd = date_s.strftime('%Y%m%d')
+
+        cmd_list = '%s %s %s %s' % (python, job_exe, sat_pair, ymd)
+        arg_list.append(cmd_list)
+        date_s = date_s + relativedelta(days=1)
+    return arg_list
+
+
+def get_arglist_job01_04(job_exe, sat_pair, date_s, date_e, job_id):
+
+    Log.info(u'in function get_arglist_job01_04')
+    arg_list = []
+    while date_s <= date_e:
+        ymd = date_s.strftime('%Y%m%d')
+        cfg_path = os.path.join(
+            JOBCFG_DIR, sat_pair, 'job_%s' % job_id, ymd)
+
+        if not os.path.isdir(cfg_path):
+            Log.error(u'not found %s ' % (cfg_path))
             date_s = date_s + relativedelta(days=1)
-    else:
-        while date_s <= date_e:
-            ymd = date_s.strftime('%Y%m%d')
-            cmd_list = '%s %s %s %s-%s' % (python, job_exe, sat_pair, ymd, ymd)
+            continue
+
+        Lst = sorted(os.listdir(cfg_path), reverse=False)
+
+        for Line in Lst:
+            yaml_file = os.path.join(cfg_path, Line)
+            cmd_list = '%s %s %s' % (python, job_exe, yaml_file)
             arg_list.append(cmd_list)
-            date_s = date_s + relativedelta(days=1)
+
+        date_s = date_s + relativedelta(days=1)
+
     return arg_list
 
 
@@ -189,9 +255,12 @@ def command(args_cmd):
         time.sleep(1)
 
 
-def craete_sat_pair_yaml(sat_pair, ymd, job_id):
+def craete_incfg_job_01_04(sat_pair, date_s, date_e, job_id):
+
     Log.info(u'in function craete_sat_pair_yaml')
-    if job_id in ['01', '02', '03', '04']:
+    while date_s <= date_e:
+        ymd = date_s.strftime('%Y%m%d')
+
         if 'FIX' in sat_pair:
             create_leo_fix(sat_pair, ymd, job_id)
         elif 'HIRAS' in sat_pair:
@@ -201,9 +270,8 @@ def craete_sat_pair_yaml(sat_pair, ymd, job_id):
         else:
             print 'job_%s not support %s' % (job_id, sat_pair)
             sys.exit(-1)
-        return True
-    else:
-        return False
+
+        date_s = date_s + relativedelta(days=1)
 
 
 def create_leo_fix(sat_pair, ymd, job_id):
