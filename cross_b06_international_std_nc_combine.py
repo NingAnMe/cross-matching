@@ -128,7 +128,7 @@ class GSICS_STD_NC(object):
                         (nc_type, self.sat1, self.sen1, self.sat2, self.sen2, self.ymd1, self.hms)
         self.nc_path = os.path.join(self.nc_dir, self.nc_name)
 
-        attr_fname = '%sX_%s.attr' % (self.sat1[:3], nc_type)
+        attr_fname = '%s_%s.attr' % (part1, nc_type)
         self.conf = ConfigObj(os.path.join(MAIN_PATH, "cfg", attr_fname))
         self.chan = int(self.conf['%s+%s' % (self.sat1, self.sen1)]['_chan'])
         self.chanlist = self.conf['%s+%s' % (self.sat1, self.sen1)]['_chanlist']

@@ -130,11 +130,11 @@ class GSICS_STD_NC(object):
                        self.ymd, self.hms)
         self.nc_path = os.path.join(self.nc_dir, self.nc_name)
 
-        Tbb2Rad_filename = '%s_LUT_TB_RB.TXT' % part1
+        Tbb2Rad_filename = '%s_LUT.TXT' % part1
         Tbb2Rad_fp = os.path.join(MAIN_PATH, "cfg", Tbb2Rad_filename)
         self.Tbb_Rad_LUT = np.loadtxt(Tbb2Rad_fp, ndmin=2)
 
-        attr_fname = '%sX_%s.attr' % (self.sat1[:3], self.nc_type)
+        attr_fname = '%s_%s.attr' % (part1, self.nc_type)
         self.conf = ConfigObj(os.path.join(MAIN_PATH, "cfg", attr_fname))
         self.chanlist = self.conf['%s+%s' % (self.sat1, self.sen1)]['_chanlist']
         self.chan = int(self.conf['%s+%s' % (self.sat1, self.sen1)]['_chan'])
