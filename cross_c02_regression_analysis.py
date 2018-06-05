@@ -687,10 +687,10 @@ def plot(x, y, weight, o_file, num_file, part1, part2, chan, ymd,
         bias_info = bias_information(x, y, boundary, bias_range)
 
         # 格式化 MeanBias 信息
-        info_lower = u"MeanBias(<={:d}%Range)=\n    {:.4f}±{:.4f}@{:.4f}".format(
+        info_lower = "MeanBias(<={:d}%Range)=\n    {:.4f}±{:.4f}@{:.4f}".format(
             int(bias_range * 100), bias_info.get("md_lower"),
             bias_info.get("std_lower"), bias_info.get("mt_lower"))
-        info_greater = u"MeanBias(>{:d}%Range)=\n    {:.4f}±{:.4f}@{:.4f}".format(
+        info_greater = "MeanBias(>{:d}%Range)=\n    {:.4f}±{:.4f}@{:.4f}".format(
             int(bias_range * 100), bias_info.get("md_greater"),
             bias_info.get("std_greater"), bias_info.get("mt_greater"))
 
